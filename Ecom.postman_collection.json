@@ -1,0 +1,342 @@
+{
+  "info": {
+    "_postman_id": "e32336d9-b2a9-4c1a-9271-afe3b8b41b39",
+    "name": "Ecom",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54404891",
+    "_collection_link": "https://go.postman.co/collection/54404891-e32336d9-b2a9-4c1a-9271-afe3b8b41b39?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonData = pm.response.json();\r",
+              "pm.expect(jsonData.message).to.eql(\"Login Successfully\")\r",
+              "pm.collectionVariables.set(\"token\", jsonData.token);\r",
+              "pm.collectionVariables.set(\"userId\", jsonData.userId);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"userEmail\": \"Yo@gmail.com\", \r\n    \"userPassword\": \"Dipak@1111\"\r\n\r\n\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://rahulshettyacademy.com/api/ecom/auth/login",
+          "protocol": "https",
+          "host": [
+            "rahulshettyacademy",
+            "com"
+          ],
+          "path": [
+            "api",
+            "ecom",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Product",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonData = pm.response.json();\r",
+              "pm.collectionVariables.set(\"productId\", jsonData.productId);\r",
+              "pm.expect(jsonData.message).to.eql(\"Product Added Successfully\");"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{token}}",
+            "type": "text"
+          },
+          {
+            "key": "",
+            "value": "",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "productName",
+              "value": "{{productName}}",
+              "type": "text"
+            },
+            {
+              "key": "productAddedBy",
+              "value": "{{userId}}",
+              "type": "text"
+            },
+            {
+              "key": "productCategory",
+              "value": "fashion",
+              "type": "text"
+            },
+            {
+              "key": "productSubCategory",
+              "value": "shirts",
+              "type": "text"
+            },
+            {
+              "key": "productPrice",
+              "value": "11500",
+              "type": "text"
+            },
+            {
+              "key": "productDescription",
+              "value": "Addias Originals",
+              "type": "text"
+            },
+            {
+              "key": "productFor",
+              "value": "women",
+              "type": "text"
+            },
+            {
+              "key": "productImage",
+              "type": "file",
+              "uuid": "08fc826c-8d5f-490a-9374-6c20a047a456",
+              "src": "Rww9OJJZu/Signature (6) (1).jpg"
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://rahulshettyacademy.com/api/ecom/product/add-product",
+          "protocol": "https",
+          "host": [
+            "rahulshettyacademy",
+            "com"
+          ],
+          "path": [
+            "api",
+            "ecom",
+            "product",
+            "add-product"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Actual Request",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonData = pm.response.json();\r",
+              "pm.collectionVariables.set(\"orderId\", jsonData.orders[0]);\r",
+              "pm.expect(jsonData.message).to.eql(\"Order Placed Successfully\");"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"orders\":[\r\n    {\"country\":\"India\",\r\n    \"productOrderedId\":\"{{productId}}\"\r\n    }\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://rahulshettyacademy.com/api/ecom/order/create-order",
+          "protocol": "https",
+          "host": [
+            "rahulshettyacademy",
+            "com"
+          ],
+          "path": [
+            "api",
+            "ecom",
+            "order",
+            "create-order"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "View Order Details",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonData = pm.response.json();\r",
+              "pm.expect(jsonData.data.productName).to.eql(pm.collectionVariables.get(\"productName\"));"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://rahulshettyacademy.com/api/ecom/order/get-orders-details?id={{orderId}}",
+          "protocol": "https",
+          "host": [
+            "rahulshettyacademy",
+            "com"
+          ],
+          "path": [
+            "api",
+            "ecom",
+            "order",
+            "get-orders-details"
+          ],
+          "query": [
+            {
+              "key": "id",
+              "value": "{{orderId}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Product",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\",function(){\r",
+              "    pm.response.to.have.status(200);});\r",
+              "    "
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://rahulshettyacademy.com/api/ecom/product/delete-product/{{productId}}",
+          "protocol": "https",
+          "host": [
+            "rahulshettyacademy",
+            "com"
+          ],
+          "path": [
+            "api",
+            "ecom",
+            "product",
+            "delete-product",
+            "{{productId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "userId",
+      "value": ""
+    },
+    {
+      "key": "productId",
+      "value": ""
+    },
+    {
+      "key": "orderId",
+      "value": ""
+    },
+    {
+      "key": "productName",
+      "value": ""
+    }
+  ]
+}
